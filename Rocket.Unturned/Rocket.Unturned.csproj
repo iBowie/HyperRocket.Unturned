@@ -104,6 +104,7 @@
     <Compile Include="Commands\UnturnedCommands.cs" />
     <Compile Include="Commands\UnturnedCommandExtensions.cs" />
     <Compile Include="Extensions\CommandArgExtension.cs" />
+    <Compile Include="Extensions\ProviderExtension.cs" />
     <Compile Include="Player\UnturnedPlayerMovement.cs" />
     <Compile Include="Skills\UnturnedSkill.cs" />
     <Compile Include="UnturnedConsoleWriter.cs" />
