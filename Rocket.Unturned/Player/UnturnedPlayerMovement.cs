@@ -1,13 +1,7 @@
-using Rocket.Core;
-using Rocket.Core.Logging;
 using Rocket.Core.Utils;
 using Rocket.Unturned.Player;
-using SDG.Provider;
-using SDG.Provider.Services.Achievements;
 using SDG.Unturned;
-using Steamworks;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Rocket.Unturned
@@ -16,7 +10,7 @@ namespace Rocket.Unturned
     {
         public bool VanishMode = false;
         DateTime lastUpdate = DateTime.Now;
-        Vector3 lastVector = new Vector3(0,-1,0);
+        Vector3 lastVector = new Vector3(0, -1, 0);
 
         DateTime? requested = null;
         string webClientResult = null;
@@ -33,7 +27,8 @@ namespace Rocket.Unturned
                         {
                             if (e.Error == null)
                             {
-                                if (e.Result.Contains(",")){
+                                if (e.Result.Contains(","))
+                                {
                                     string[] result = e.Result.Split(',');
                                     long age;
                                     if (result[0] == "true")
@@ -48,16 +43,16 @@ namespace Rocket.Unturned
                                         Core.Logging.Logger.Log("[RocketMod Observatory] Kicking Player " + Player.CharacterName + " because his account is limited");
                                         Player.Kick("your Steam account is limited");
                                     }
-                                    else if (U.Settings.Instance.RocketModObservatory.KickTooYoungAccounts && result.Length == 3 && long.TryParse(result[2].ToString(),out age))
+                                    else if (U.Settings.Instance.RocketModObservatory.KickTooYoungAccounts && result.Length == 3 && long.TryParse(result[2].ToString(), out age))
                                     {
                                         long epochTicks = new DateTime(1970, 1, 1).Ticks;
                                         long unixTime = ((DateTime.UtcNow.Ticks - epochTicks) / TimeSpan.TicksPerSecond);
                                         long d = (unixTime - age);
                                         if (d < U.Settings.Instance.RocketModObservatory.MinimumAge)
                                         {
-                                            Core.Logging.Logger.Log("[RocketMod Observatory] Kicking Player " + Player.CharacterName + " because his account is younger then "+ U.Settings.Instance.RocketModObservatory.MinimumAge+" seconds ("+d+" seconds)");
+                                            Core.Logging.Logger.Log("[RocketMod Observatory] Kicking Player " + Player.CharacterName + " because his account is younger then " + U.Settings.Instance.RocketModObservatory.MinimumAge + " seconds (" + d + " seconds)");
                                             Player.Kick("your Steam account is not old enough");
-                                        } 
+                                        }
                                     }
                                 }
                             }
@@ -74,7 +69,8 @@ namespace Rocket.Unturned
 
         private void FixedUpdate()
         {
-            if (requested.HasValue && (DateTime.Now - requested.Value).TotalSeconds >= 2){
+            if (requested.HasValue && (DateTime.Now - requested.Value).TotalSeconds >= 2)
+            {
                 Provider.kick(Player.CSteamID, webClientResult);
                 requested = null;
             }

@@ -1,14 +1,12 @@
-﻿using Rocket.Core.Logging;
+﻿using Rocket.API;
+using Rocket.API.Commands;
+using Rocket.Core.Extensions;
+using Rocket.Core.Logging;
+using Rocket.Unturned.Chat;
+using Rocket.Unturned.Extensions;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
 using System.Collections.Generic;
-using Rocket.API;
-using Rocket.Unturned.Chat;
-using Rocket.API.Commands;
-using Rocket.Unturned.Extensions;
-using Rocket.Core.Extensions;
-using Rocket.Unturned.Utils;
-using System.Linq;
 
 namespace Rocket.Unturned.Commands
 {
@@ -54,7 +52,8 @@ namespace Rocket.Unturned.Commands
 
             if (U.Settings.Instance.EnableItemBlacklist && !player.HasPermission("itemblacklist.bypass"))
             {
-                if (player.HasPermission("item." + id)) {
+                if (player.HasPermission("item." + id))
+                {
                     UnturnedChat.Say(player, U.Translate("command_i_blacklisted"));
                     return;
                 }

@@ -1,8 +1,5 @@
 ﻿using Rocket.API;
 using System.Xml.Serialization;
-using Rocket.Unturned.Items;
-using System.Collections.Generic;
-using System;
 
 namespace Rocket.Unturned.Serialisation
 {

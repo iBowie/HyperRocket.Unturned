@@ -125,9 +125,9 @@ namespace Rocket.Unturned.Utils
             {
                 if (name.Contains(sWord)) // asset has word in it
                     p++;
-                
+
                 var sNoSpecial = Regex.Replace(sWord, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
-                
+
                 foreach (var aWord in wordsAsset)
                 {
                     if (aWord == sWord) // exact match
@@ -137,7 +137,7 @@ namespace Rocket.Unturned.Utils
                         p++;
 
                     var aNoSpecial = Regex.Replace(aWord, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
-                    
+
                     if (aNoSpecial == sWord) // exact no symbols match
                         p++;
 
