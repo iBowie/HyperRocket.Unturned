@@ -19,7 +19,7 @@ namespace Rocket.Unturned.Extensions
             List<UnturnedPlayer> res = new List<UnturnedPlayer>();
             if (arg.RawValue == "*")
             {
-
+                res.AddRange(ProviderExtension.GetUnturnedPlayers());
             }
             else if (arg.IsPlayer(out var player))
             {
