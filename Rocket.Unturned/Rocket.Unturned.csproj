@@ -108,6 +108,7 @@
     <Compile Include="Player\UnturnedPlayerMovement.cs" />
     <Compile Include="Skills\UnturnedSkill.cs" />
     <Compile Include="UnturnedConsoleWriter.cs" />
+    <Compile Include="Utils\AssetUtil.cs" />
     <Compile Include="Utils\AutomaticSaveWatchdog.cs" />
     <Compile Include="Chat\UnturnedChat.cs" />
     <Compile Include="Commands\CommandAdmin.cs" />

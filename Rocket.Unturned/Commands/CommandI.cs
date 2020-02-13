@@ -1,79 +1,50 @@
 ﻿using Rocket.Core.Logging;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
-using System;
 using System.Collections.Generic;
 using Rocket.API;
 using Rocket.Unturned.Chat;
-using Rocket.Unturned.Items;
+using Rocket.API.Commands;
+using Rocket.Unturned.Extensions;
+using Rocket.Core.Extensions;
+using Rocket.Unturned.Utils;
 using System.Linq;
 
 namespace Rocket.Unturned.Commands
 {
-    public class CommandI : IRocketCommand
+    public class CommandI : AdvancedRocketCommand
     {
-        public AllowedCaller AllowedCaller
-        {
-            get
-            {
-                return AllowedCaller.Player;
-            }
-        }
-
-        public string Name
-        {
-            get { return "i"; }
-        }
-
-        public string Help
-        {
-            get { return "Gives yourself an item";}
-        }
-
-        public string Syntax
-        {
-            get { return "<id> [amount]"; }
-        }
-
-        public List<string> Aliases
-        {
-            get { return new List<string>() { "item" }; }
-        }
-
-        public List<string> Permissions
-        {
-            get { return new List<string>() { "rocket.item" , "rocket.i" }; }
-        }
-
-        public void Execute(IRocketPlayer caller, string[] command)
+        public override AllowedCaller AllowedCaller => AllowedCaller.Player;
+        public override string Name => "i";
+        public override string Help => "Gives yourself an item";
+        public override string Syntax => "<id> [amount]";
+        public override List<string> Aliases => new List<string>() { "item" };
+        public override List<string> Permissions => new List<string>() { "rocket.item", "rocket.i" };
+        public override void Execute(IRocketPlayer caller, CommandArgs args)
         {
             UnturnedPlayer player = (UnturnedPlayer)caller;
-            if (command.Length == 0 || command.Length > 2)
+            if (args.Count == 0 || args.Count > 2)
             {
                 UnturnedChat.Say(player, U.Translate("command_generic_invalid_parameter"));
                 throw new WrongUsageOfCommandException(caller, this);
             }
 
-            ushort id = 0;
+            ushort id;
             byte amount = 1;
+            Asset a;
 
-            string itemString = command[0].ToString();
-
-            if (!ushort.TryParse(itemString, out id))
+            if (args[0].IsItem(out var itemAsset))
             {
-                List<ItemAsset> sortedAssets = new List<ItemAsset>(SDG.Unturned.Assets.find(EAssetType.ITEM).Cast<ItemAsset>());
-                ItemAsset asset = sortedAssets.Where(i => i.itemName != null).OrderBy(i => i.itemName.Length).Where(i => i.itemName.ToLower().Contains(itemString.ToLower())).FirstOrDefault();
-                if (asset != null) id = asset.id;
-                if (String.IsNullOrEmpty(itemString.Trim()) || id == 0)
-                {
-                    UnturnedChat.Say(player, U.Translate("command_generic_invalid_parameter"));
-                    throw new WrongUsageOfCommandException(caller, this);
-                }
+                a = itemAsset;
+                id = itemAsset.id;
+            }
+            else
+            {
+                UnturnedChat.Say(player, U.Translate("command_generic_invalid_parameter"));
+                throw new WrongUsageOfCommandException(caller, this);
             }
 
-            Asset a = SDG.Unturned.Assets.find(EAssetType.ITEM,id);
-
-            if (command.Length == 2 && !byte.TryParse(command[1].ToString(), out amount) || a == null)
+            if (args.Count == 2 && !args[1].IsByte(out amount) || a == null)
             {
                 UnturnedChat.Say(player, U.Translate("command_generic_invalid_parameter"));
                 throw new WrongUsageOfCommandException(caller, this);
