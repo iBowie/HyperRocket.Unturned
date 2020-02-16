@@ -211,13 +211,13 @@ namespace Rocket.Unturned.Utils
                 switch (asset)
                 {
                     case ItemAsset item:
-                        name = item.itemName;
+                        name = item.itemName ?? asset.name;
                         break;
                     case VehicleAsset vehicle:
-                        name = vehicle.vehicleName;
+                        name = vehicle.vehicleName ?? asset.name;
                         break;
                     case AnimalAsset animal:
-                        name = animal.animalName;
+                        name = animal.animalName ?? asset.name;
                         break;
                     default:
                         name = asset.name;
