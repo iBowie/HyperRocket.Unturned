@@ -46,6 +46,8 @@ namespace Rocket.Unturned.Serialisation
 
         public bool EnableItemSpawnLimit;
 
+        public bool EnableFuzzyComparisonForNames;
+
         public int MaxSpawnAmount;
 
         public bool EnableVehicleBlacklist;
@@ -60,6 +62,7 @@ namespace Rocket.Unturned.Serialisation
             LogSuspiciousPlayerMovement = true;
             EnableItemBlacklist = false;
             EnableItemSpawnLimit = false;
+            EnableFuzzyComparisonForNames = false;
             MaxSpawnAmount = 10;
             EnableVehicleBlacklist = false;
         }

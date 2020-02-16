@@ -19,9 +19,9 @@ namespace Rocket.Unturned.Utils
             }
         }
         /// <summary>
-        /// Gets list of all animal assets that match search term
+        /// Gets list of all animal search entries that match search term
         /// </summary>
-        public static IEnumerable<SearchEntry> GetAnimalAssets(string search)
+        public static IEnumerable<SearchEntry> SearchAnimalAssets(string search)
         {
             foreach (var animal in GetAnimalAssets())
             {
@@ -31,12 +31,22 @@ namespace Rocket.Unturned.Utils
             }
         }
         /// <summary>
+        /// Gets list of all animal assets that match search term
+        /// </summary>
+        public static IEnumerable<AnimalAsset> GetAnimalAssets(string search)
+        {
+            foreach (var entry in SearchAnimalAssets(search))
+            {
+                yield return (AnimalAsset)entry.Asset;
+            }
+        }
+        /// <summary>
         /// Gets most prior search entry
         /// </summary>
         public static AnimalAsset GetAnimalAsset(string search)
         {
-            var entry = GetAnimalAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
-            if (entry == null)
+            var entry = SearchAnimalAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
+            if (entry == null || entry.Priority <= 0)
                 return null;
             return (AnimalAsset)entry.Asset;
         }
@@ -53,9 +63,9 @@ namespace Rocket.Unturned.Utils
             }
         }
         /// <summary>
-        /// Gets list of all animal assets that match search term
+        /// Gets list of all item search entries that match search term
         /// </summary>
-        public static IEnumerable<SearchEntry> GetItemAssets(string search)
+        public static IEnumerable<SearchEntry> SearchItemAssets(string search)
         {
             foreach (var item in GetItemAssets())
             {
@@ -65,14 +75,112 @@ namespace Rocket.Unturned.Utils
             }
         }
         /// <summary>
+        /// Gets list of all item assets that match search term
+        /// </summary>
+        public static IEnumerable<ItemAsset> GetItemAssets(string search)
+        {
+            foreach (var entry in SearchItemAssets(search))
+            {
+                yield return (ItemAsset)entry.Asset;
+            }
+        }
+        /// <summary>
         /// Gets most prior search entry
         /// </summary>
         public static ItemAsset GetItemAsset(string search)
         {
-            var entry = GetItemAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
-            if (entry == null)
+            var entry = SearchItemAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
+            if (entry == null || entry.Priority <= 0)
                 return null;
             return (ItemAsset)entry.Asset;
+        }
+        #endregion
+        #region VEHICLES
+        /// <summary>
+        /// Gets list of all vehicle assets ordered by ID
+        /// </summary>
+        public static IEnumerable<VehicleAsset> GetVehicleAssets()
+        {
+            foreach (var asset in Assets.find(EAssetType.VEHICLE).OrderBy(d => d.id))
+            {
+                yield return (VehicleAsset)asset;
+            }
+        }
+        /// <summary>
+        /// Gets list of all vehicle search entries that match search term
+        /// </summary>
+        public static IEnumerable<SearchEntry> SearchVehicleAssets(string search)
+        {
+            foreach (var vehicle in GetVehicleAssets())
+            {
+                var entry = new SearchEntry(vehicle, getPriority(vehicle, search));
+
+                yield return entry;
+            }
+        }
+        /// <summary>
+        /// Gets list of all vehicle assets that match search term
+        /// </summary>
+        public static IEnumerable<VehicleAsset> GetVehicleAssets(string search)
+        {
+            foreach (var entry in SearchVehicleAssets(search))
+            {
+                yield return (VehicleAsset)entry.Asset;
+            }
+        }
+        /// <summary>
+        /// Gets most prior search entry
+        /// </summary>
+        public static VehicleAsset GetVehicleAsset(string search)
+        {
+            var entry = SearchVehicleAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
+            if (entry == null || entry.Priority <= 0)
+                return null;
+            return (VehicleAsset)entry.Asset;
+        }
+        #endregion
+        #region EFFECTS
+        /// <summary>
+        /// Gets list of all effect assets ordered by ID
+        /// </summary>
+        public static IEnumerable<EffectAsset> GetEffectAssets()
+        {
+            foreach (var asset in Assets.find(EAssetType.EFFECT).OrderBy(d => d.id))
+            {
+                yield return (EffectAsset)asset;
+            }
+        }
+        /// <summary>
+        /// Gets list of all effect search entries that match search term
+        /// </summary>
+        public static IEnumerable<SearchEntry> SearchEffectAssets(string search)
+        {
+            foreach (var effect in GetEffectAssets())
+            {
+                var entry = new SearchEntry(effect, getPriority(effect, search));
+
+                yield return entry;
+            }
+        }
+        /// <summary>
+        /// Gets list of all effect assets that match search term
+        /// </summary>
+        public static IEnumerable<EffectAsset> GetEffectAssets(string search)
+        {
+            foreach (var entry in SearchEffectAssets(search))
+            {
+                yield return (EffectAsset)entry.Asset;
+            }
+        }
+        /// <summary>
+        /// Gets most prior search entry
+        /// </summary>
+        public static EffectAsset GetEffectAsset(string search)
+        {
+            var entry = SearchEffectAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
+            if (entry == null || entry.Priority <= 0)
+                return null;
+            return (EffectAsset)entry.Asset;
         }
         #endregion
 
@@ -91,6 +199,46 @@ namespace Rocket.Unturned.Utils
         {
             if (asset == null)
                 return -1;
+
+            if (U.Settings.Instance.EnableFuzzyComparisonForNames)
+            {
+                return myFuzzyComparison(asset, search);
+            }
+            else
+            {
+                string name;
+
+                switch (asset)
+                {
+                    case ItemAsset item:
+                        name = item.itemName;
+                        break;
+                    case VehicleAsset vehicle:
+                        name = vehicle.vehicleName;
+                        break;
+                    case AnimalAsset animal:
+                        name = animal.animalName;
+                        break;
+                    default:
+                        name = asset.name;
+                        break;
+
+                }
+
+                int p = 0;
+
+                if (name.ToLower().Contains(search.ToLower()))
+                    p++;
+
+                if (asset.name.ToLower().Contains(search.ToLower()))
+                    p++;
+
+                return p;
+            }
+        }
+
+        static int myFuzzyComparison(Asset asset, string search)
+        {
             int p = 0;
 
             string name;
@@ -120,15 +268,19 @@ namespace Rocket.Unturned.Utils
 
             var wordsSearch = search.Split(' ').Where(d => d.Length > 0).ToArray();
             var wordsAsset = name.Split(' ').Where(d => d.Length > 0).ToArray();
+            var words = asset.name.Split('_').Where(d => d.Length > 0).ToArray();
 
             foreach (var sWord in wordsSearch)
             {
                 if (name.Contains(sWord)) // asset has word in it
                     p++;
 
+                if (name.ToLower().Contains(sWord.ToLower()))
+                    p++;
+
                 var sNoSpecial = Regex.Replace(sWord, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
 
-                foreach (var aWord in wordsAsset)
+                foreach (var aWord in wordsAsset.Concat(words))
                 {
                     if (aWord == sWord) // exact match
                         p++;
@@ -147,7 +299,8 @@ namespace Rocket.Unturned.Utils
                     if (aNoSpecial.ToLower() == sWord.ToLower()) // ignore case no symbols
                         p++;
 
-                    if (aWord.Contains('\''))
+                    var apostropheCount = aWord.Count(c => c == '\'');
+                    if (apostropheCount > 0 && apostropheCount % 2 != 0)
                     {
                         string noApostrophe = aWord.Substring(0, aWord.LastIndexOf('\''));
 
@@ -155,6 +308,12 @@ namespace Rocket.Unturned.Utils
                             p++;
 
                         if (noApostrophe.ToLower() == sWord.ToLower()) // ignore case
+                            p++;
+
+                        if (name.Contains(noApostrophe))
+                            p++;
+
+                        if (name.ToLower().Contains(noApostrophe))
                             p++;
                     }
                 }
