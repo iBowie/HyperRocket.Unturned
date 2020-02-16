@@ -8,36 +8,12 @@ namespace Rocket.Unturned.Commands
 {
     public class CommandMore : IRocketCommand
     {
-        public List<string> Aliases
-        {
-            get { return new List<string>(); }
-        }
-
-        public AllowedCaller AllowedCaller
-        {
-            get { return AllowedCaller.Player; }
-        }
-
-        public string Help
-        {
-            get { return "Gives more of an item that you have in your hands."; }
-        }
-
-        public string Name
-        {
-            get { return "more"; }
-        }
-
-        public List<string> Permissions
-        {
-            get { return new List<string>() { "rocket.more" }; }
-        }
-
-        public string Syntax
-        {
-            get { return "<amount>"; }
-        }
-
+        public AllowedCaller AllowedCaller => AllowedCaller.Player;
+        public string Name => "more";
+        public string Help => "Gives more of an item that you have in your hands.";
+        public string Syntax => "<amount>";
+        public List<string> Aliases => new List<string>();
+        public List<string> Permissions => new List<string>() { "rocket.more" };
         public void Execute(IRocketPlayer caller, string[] command)
         {
             byte? amount = command.GetByteParameter(0);

@@ -10,39 +10,12 @@ namespace Rocket.Unturned.Commands
 {
     public class CommandHelp : IRocketCommand
     {
-        public AllowedCaller AllowedCaller
-        {
-            get
-            {
-                return AllowedCaller.Both;
-            }
-        }
-
-        public string Name
-        {
-            get { return "help"; }
-        }
-
-        public string Help
-        {
-            get { return "Shows you a specific help"; }
-        }
-
-        public string Syntax
-        {
-            get { return "[command]"; }
-        }
-
-        public List<string> Aliases
-        {
-            get { return new List<string>(); }
-        }
-
-        public List<string> Permissions
-        {
-            get { return new List<string>() { "rocket.help" }; }
-        }
-
+        public AllowedCaller AllowedCaller => AllowedCaller.Both;
+        public string Name => "help";
+        public string Help => "Shows you a specific help";
+        public string Syntax => "[command]";
+        public List<string> Aliases => new List<string>();
+        public List<string> Permissions => new List<string>() { "rocket.help" };
         public void Execute(IRocketPlayer caller, string[] command)
         {
             if (command.Length == 0)

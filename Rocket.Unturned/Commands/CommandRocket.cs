@@ -12,39 +12,12 @@ namespace Rocket.Unturned.Commands
 {
     public class CommandRocket : IRocketCommand
     {
-        public AllowedCaller AllowedCaller
-        {
-            get
-            {
-                return AllowedCaller.Both;
-            }
-        }
-
-        public string Name
-        {
-            get { return "rocket"; }
-        }
-
-        public string Help
-        {
-            get { return "Reloading Rocket or individual plugins"; }
-        }
-
-        public string Syntax
-        {
-            get { return "<plugins | reload> | <reload | unload | load> <plugin>"; }
-        }
-
-        public List<string> Aliases
-        {
-            get { return new List<string>(); }
-        }
-
-        public List<string> Permissions
-        {
-            get { return new List<string>() { "rocket.info", "rocket.rocket" }; }
-        }
-
+        public AllowedCaller AllowedCaller => AllowedCaller.Both;
+        public string Name => "rocket";
+        public string Help => "Reloading Rocket or individual plugins";
+        public string Syntax => "<plugins | reload> | <reload | unload | load> <plugin>";
+        public List<string> Aliases => new List<string>();
+        public List<string> Permissions => new List<string>() { "rocket.info", "rocket.rocket" };
         public void Execute(IRocketPlayer caller, string[] command)
         {
             if (command.Length == 0)

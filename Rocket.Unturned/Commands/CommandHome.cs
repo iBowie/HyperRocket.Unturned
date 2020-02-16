@@ -9,45 +9,16 @@ namespace Rocket.Unturned.Commands
 {
     public class CommandHome : IRocketCommand
     {
-        public AllowedCaller AllowedCaller
-        {
-            get
-            {
-                return AllowedCaller.Player;
-            }
-        }
-
-        public string Name
-        {
-            get { return "home"; }
-        }
-
-        public string Help
-        {
-            get { return "Teleports you to your last bed"; }
-        }
-
-        public string Syntax
-        {
-            get { return ""; }
-        }
-
-        public List<string> Aliases
-        {
-            get { return new List<string>(); }
-        }
-
-        public List<string> Permissions
-        {
-            get { return new List<string>() { "rocket.home" }; }
-        }
-
+        public AllowedCaller AllowedCaller => AllowedCaller.Player;
+        public string Name => "home";
+        public string Help => "Teleports you to your last bed";
+        public string Syntax => "";
+        public List<string> Aliases => new List<string>();
+        public List<string> Permissions => new List<string>() { "rocket.home" };
         public void Execute(IRocketPlayer caller, string[] command)
         {
             UnturnedPlayer player = (UnturnedPlayer)caller;
-            Vector3 pos;
-            byte rot;
-            if (!BarricadeManager.tryGetBed(player.CSteamID, out pos, out rot))
+            if (!BarricadeManager.tryGetBed(player.CSteamID, out Vector3 pos, out byte rot))
             {
                 UnturnedChat.Say(caller, U.Translate("command_bed_no_bed_found_private"));
                 throw new WrongUsageOfCommandException(caller, this);

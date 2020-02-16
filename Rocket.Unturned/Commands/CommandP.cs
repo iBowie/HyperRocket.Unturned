@@ -9,39 +9,12 @@ namespace Rocket.Unturned.Commands
 {
     public class CommandP : IRocketCommand
     {
-        public AllowedCaller AllowedCaller
-        {
-            get
-            {
-                return AllowedCaller.Both;
-            }
-        }
-
-        public string Name
-        {
-            get { return "p"; }
-        }
-
-        public string Help
-        {
-            get { return "Sets a Rocket permission group of a specific player"; }
-        }
-
-        public string Syntax
-        {
-            get { return "<player> [group] | reload"; }
-        }
-
-        public List<string> Aliases
-        {
-            get { return new List<string>() { "permissions" }; }
-        }
-
-        public List<string> Permissions
-        {
-            get { return new List<string>() { "rocket.p", "rocket.permissions" }; }
-        }
-
+        public AllowedCaller AllowedCaller => AllowedCaller.Both;
+        public string Name => "p";
+        public string Help => "Sets a Rocket permission group of a specific player";
+        public string Syntax => "<player> [group] | reload";
+        public List<string> Aliases => new List<string>() { "permissions" };
+        public List<string> Permissions => new List<string>() { "rocket.p", "rocket.permissions" };
         public void Execute(IRocketPlayer caller, string[] command)
         {
             if (command.Length == 1 && command[0].ToLower() == "reload" && caller.HasPermission("p.reload"))
