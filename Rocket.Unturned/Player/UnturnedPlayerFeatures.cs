@@ -30,8 +30,10 @@ namespace Rocket.Unturned.Player
                 if (vanishMode && !value)
                 {
                     pMovement.updates.Add(new PlayerStateUpdate(pMovement.real, Player.Player.look.angle, Player.Player.look.rot));
+                    #pragma warning disable CS0612 // Type or member is obsolete
                     pMovement.isUpdated = true;
                     PlayerManager.updates++;
+                    #pragma warning restore CS0612 // Type or member is obsolete
                 }
                 vanishMode = value;
             }
@@ -45,10 +47,18 @@ namespace Rocket.Unturned.Player
                 if (value)
                 {
                     DamageTool.damagePlayerRequested += DamageTool_damagePlayerRequested;
+                    Player.Events.OnUpdateHealth += e_OnPlayerUpdateHealth;
+                    Player.Events.OnUpdateWater += e_OnPlayerUpdateWater;
+                    Player.Events.OnUpdateFood += e_OnPlayerUpdateFood;
+                    Player.Events.OnUpdateVirus += e_OnPlayerUpdateVirus;
                 }
                 else
                 {
                     DamageTool.damagePlayerRequested -= DamageTool_damagePlayerRequested;
+                    Player.Events.OnUpdateHealth -= e_OnPlayerUpdateHealth;
+                    Player.Events.OnUpdateWater -= e_OnPlayerUpdateWater;
+                    Player.Events.OnUpdateFood -= e_OnPlayerUpdateFood;
+                    Player.Events.OnUpdateVirus -= e_OnPlayerUpdateVirus;
                 }
                 godMode = value;
             }
@@ -58,9 +68,34 @@ namespace Rocket.Unturned.Player
             }
         }
 
+        private void e_OnPlayerUpdateVirus(UnturnedPlayer player, byte virus)
+        {
+            if (virus < 95) Player.Infection = 0;
+        }
+
+        private void e_OnPlayerUpdateFood(UnturnedPlayer player, byte food)
+        {
+            if (food < 95) Player.Hunger = 0;
+        }
+
+        private void e_OnPlayerUpdateWater(UnturnedPlayer player, byte water)
+        {
+            if (water < 95) Player.Thirst = 0;
+        }
+
+        private void e_OnPlayerUpdateHealth(UnturnedPlayer player, byte health)
+        {
+            if (health < 95)
+            {
+                Player.Heal(100);
+                Player.Bleeding = false;
+                Player.Broken = false;
+            }
+        }
+
         private void DamageTool_damagePlayerRequested(ref DamagePlayerParameters parameters, ref bool shouldAllow)
         {
-            if (parameters.player == Player.Player && godMode)
+            if (parameters.player.channel.owner.playerID.steamID == Player.CSteamID && godMode)
             {
                 shouldAllow = false;
             }
@@ -112,6 +147,10 @@ namespace Rocket.Unturned.Player
             if (godMode)
             {
                 DamageTool.damagePlayerRequested += DamageTool_damagePlayerRequested;
+                Player.Events.OnUpdateHealth += e_OnPlayerUpdateHealth;
+                Player.Events.OnUpdateWater += e_OnPlayerUpdateWater;
+                Player.Events.OnUpdateFood += e_OnPlayerUpdateFood;
+                Player.Events.OnUpdateVirus += e_OnPlayerUpdateVirus;
                 Player.Heal(100);
                 Player.Infection = 0;
                 Player.Hunger = 0;
