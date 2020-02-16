@@ -8,39 +8,12 @@ namespace Rocket.Unturned.Commands
 {
     internal class CommandTphere : IRocketCommand
     {
-        public AllowedCaller AllowedCaller
-        {
-            get
-            {
-                return AllowedCaller.Player;
-            }
-        }
-
-        public string Name
-        {
-            get { return "tphere"; }
-        }
-
-        public string Help
-        {
-            get { return "Teleports another player to you"; }
-        }
-
-        public string Syntax
-        {
-            get { return "<player>"; }
-        }
-
-        public List<string> Aliases
-        {
-            get { return new List<string>(); }
-        }
-
-        public List<string> Permissions
-        {
-            get { return new List<string>() { "rocket.tphere", "rocket.teleporthere" }; }
-        }
-
+        public AllowedCaller AllowedCaller => AllowedCaller.Player;
+        public string Name => "tphere";
+        public string Help => "Teleports another player to you";
+        public string Syntax => "<player>";
+        public List<string> Aliases => new List<string>();
+        public List<string> Permissions => new List<string>() { "rocket.tphere", "rocket.teleporthere" };
         public void Execute(IRocketPlayer caller, string[] command)
         {
             UnturnedPlayer player = (UnturnedPlayer)caller;

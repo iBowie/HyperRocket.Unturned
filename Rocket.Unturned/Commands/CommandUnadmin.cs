@@ -8,39 +8,12 @@ namespace Rocket.Unturned.Commands
 {
     public class CommandUnadmin : IRocketCommand
     {
-        public AllowedCaller AllowedCaller
-        {
-            get
-            {
-                return AllowedCaller.Both;
-            }
-        }
-
-        public string Name
-        {
-            get { return "unadmin"; }
-        }
-
-        public string Help
-        {
-            get { return "Revoke a players admin privileges"; }
-        }
-
-        public string Syntax
-        {
-            get { return ""; }
-        }
-
-        public List<string> Aliases
-        {
-            get { return new List<string>(); }
-        }
-
-        public List<string> Permissions
-        {
-            get { return new List<string>() { "rocket.unadmin" }; }
-        }
-
+        public AllowedCaller AllowedCaller => AllowedCaller.Both;
+        public string Name => "unadmin";
+        public string Help => "Revoke a players admin privileges";
+        public string Syntax => "";
+        public List<string> Aliases => new List<string>();
+        public List<string> Permissions => new List<string>() { "rocket.unadmin" };
         public void Execute(IRocketPlayer caller, string[] command)
         {
             if (!R.Settings.Instance.WebPermissions.Enabled)
