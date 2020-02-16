@@ -144,7 +144,8 @@ namespace Rocket.Unturned
 
                 System.Console.Clear();
                 System.Console.ForegroundColor = ConsoleColor.Cyan;
-                System.Console.WriteLine("Rocket Unturned v" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + " for Unturned v" + Provider.APP_VERSION + "\n");
+                System.Console.WriteLine($"Rocket Unturned v{Assembly.GetExecutingAssembly().GetName().Version.ToString()} for Unturned v{Provider.APP_VERSION}");
+                System.Console.WriteLine("HyperRocket Edition by BowieD\n");
 
                 R.OnRockedInitialized += () =>
                 {
@@ -190,7 +191,7 @@ namespace Rocket.Unturned
                     }
                     catch (Exception ex)
                     {
-                        Core.Logging.Logger.LogException(ex, "Failed to load plugin " + plugin.Name + ".");
+                        Core.Logging.Logger.LogException(ex, $"Failed to load plugin {plugin.Name}.");
                         cancelLoading = true;
                     }
                 };
@@ -217,7 +218,7 @@ namespace Rocket.Unturned
                 }
                 catch (Exception ex)
                 {
-                    Core.Logging.Logger.LogError("Steam can not be initialized: " + ex.Message);
+                    Core.Logging.Logger.LogError($"Steam can not be initialized: {ex.Message}");
                 }
 
                 OnRocketImplementationInitialized.TryInvoke();
