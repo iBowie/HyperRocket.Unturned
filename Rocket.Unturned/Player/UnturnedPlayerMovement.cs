@@ -87,15 +87,15 @@ namespace Rocket.Unturned
 
                     if (lastVector.y != -1)
                     {
-                        float x = Math.Abs(lastVector.x - positon.x);
+                        float x = System.Math.Abs(lastVector.x - positon.x);
                         float y = positon.y - lastVector.y;
-                        float z = Math.Abs(lastVector.z - positon.z);
+                        float z = System.Math.Abs(lastVector.z - positon.z);
                         if (y > 15)
                         {
                             RaycastHit raycastHit = new RaycastHit();
                             Physics.Raycast(positon, Vector3.down, out raycastHit);
                             Vector3 floor = raycastHit.point;
-                            float distance = Math.Abs(floor.y - positon.y);
+                            float distance = System.Math.Abs(floor.y - positon.y);
                             Core.Logging.Logger.Log(Player.DisplayName + " moved x:" + positon.x + " y:" + positon.y + "(+" + y + ") z:" + positon.z + " in the last second (" + distance + ")");
                         }
                     }
