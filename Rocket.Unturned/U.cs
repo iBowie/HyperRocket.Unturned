@@ -114,8 +114,8 @@ namespace Rocket.Unturned
         };
 
 
-        public static XMLFileAsset<UnturnedSettings> Settings;
-        public static XMLFileAsset<TranslationList> Translation;
+        public static Asset<UnturnedSettings> Settings;
+        public static Asset<TranslationList> Translation;
 
         public IRocketImplementationEvents ImplementationEvents { get { return Events; } }
         public static UnturnedEvents Events;
@@ -170,8 +170,9 @@ namespace Rocket.Unturned
         {
             try
             {
-                Settings = new XMLFileAsset<UnturnedSettings>(Environment.SettingsFile);
+                Settings = new JSONFileAsset<UnturnedSettings>(Environment.SettingsFile);
                 Translation = new XMLFileAsset<TranslationList>(String.Format(Environment.TranslationFile, Core.R.Settings.Instance.LanguageCode), new Type[] { typeof(TranslationList), typeof(TranslationListEntry) }, defaultTranslations);
+                
                 defaultTranslations.AddUnknownEntries(Translation);
                 Events = gameObject.TryAddComponent<UnturnedEvents>();
 
