@@ -1,4 +1,5 @@
-﻿using Rocket.Unturned.Events;
+﻿using Rocket.Core.Utils;
+using Rocket.Unturned.Events;
 using SDG.Unturned;
 using System;
 using UnityEngine;
@@ -70,26 +71,41 @@ namespace Rocket.Unturned.Player
 
         private void e_OnPlayerUpdateVirus(UnturnedPlayer player, byte virus)
         {
-            if (virus < 95) Player.Infection = 0;
+            TaskDispatcher.QueueOnMainThread(() =>
+            {
+                if (virus < 95) 
+                    Player.Infection = 0;
+            }, 0.5f);
         }
 
         private void e_OnPlayerUpdateFood(UnturnedPlayer player, byte food)
         {
-            if (food < 95) Player.Hunger = 0;
+            TaskDispatcher.QueueOnMainThread(() =>
+            {
+                if (food < 95) 
+                    Player.Hunger = 0;
+            }, 0.5f);
         }
 
         private void e_OnPlayerUpdateWater(UnturnedPlayer player, byte water)
         {
-            if (water < 95) Player.Thirst = 0;
+            TaskDispatcher.QueueOnMainThread(() =>
+            {
+                if (water < 95) 
+                    Player.Thirst = 0;
+            }, 0.5f);
         }
 
         private void e_OnPlayerUpdateHealth(UnturnedPlayer player, byte health)
         {
             if (health < 95)
             {
-                Player.Heal(100);
-                Player.Bleeding = false;
-                Player.Broken = false;
+                TaskDispatcher.QueueOnMainThread(() =>
+                {
+                    Player.Heal(100);
+                    Player.Bleeding = false;
+                    Player.Broken = false;
+                }, 0.5f);
             }
         }
 
