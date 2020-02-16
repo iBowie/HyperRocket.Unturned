@@ -44,23 +44,25 @@ namespace Rocket.Unturned.Player
             {
                 if (value)
                 {
-                    Player.Events.OnUpdateHealth += e_OnPlayerUpdateHealth;
-                    Player.Events.OnUpdateWater += e_OnPlayerUpdateWater;
-                    Player.Events.OnUpdateFood += e_OnPlayerUpdateFood;
-                    Player.Events.OnUpdateVirus += e_OnPlayerUpdateVirus;
+                    DamageTool.damagePlayerRequested += DamageTool_damagePlayerRequested;
                 }
                 else
                 {
-                    Player.Events.OnUpdateHealth -= e_OnPlayerUpdateHealth;
-                    Player.Events.OnUpdateWater -= e_OnPlayerUpdateWater;
-                    Player.Events.OnUpdateFood -= e_OnPlayerUpdateFood;
-                    Player.Events.OnUpdateVirus -= e_OnPlayerUpdateVirus;
+                    DamageTool.damagePlayerRequested -= DamageTool_damagePlayerRequested;
                 }
                 godMode = value;
             }
             get
             {
                 return godMode;
+            }
+        }
+
+        private void DamageTool_damagePlayerRequested(ref DamagePlayerParameters parameters, ref bool shouldAllow)
+        {
+            if (parameters.player == Player.Player && godMode)
+            {
+                shouldAllow = false;
             }
         }
 
@@ -109,39 +111,11 @@ namespace Rocket.Unturned.Player
 
             if (godMode)
             {
-                Player.Events.OnUpdateHealth += e_OnPlayerUpdateHealth;
-                Player.Events.OnUpdateWater += e_OnPlayerUpdateWater;
-                Player.Events.OnUpdateFood += e_OnPlayerUpdateFood;
-                Player.Events.OnUpdateVirus += e_OnPlayerUpdateVirus;
+                DamageTool.damagePlayerRequested += DamageTool_damagePlayerRequested;
                 Player.Heal(100);
                 Player.Infection = 0;
                 Player.Hunger = 0;
                 Player.Thirst = 0;
-                Player.Bleeding = false;
-                Player.Broken = false;
-            }
-        }
-
-        private void e_OnPlayerUpdateVirus(UnturnedPlayer player, byte virus)
-        {
-            if (virus < 95) Player.Infection = 0;
-        }
-
-        private void e_OnPlayerUpdateFood(UnturnedPlayer player, byte food)
-        {
-            if (food < 95) Player.Hunger = 0;
-        }
-
-        private void e_OnPlayerUpdateWater(UnturnedPlayer player, byte water)
-        {
-            if (water < 95) Player.Thirst = 0;
-        }
-
-        private void e_OnPlayerUpdateHealth(UnturnedPlayer player, byte health)
-        {
-            if (health < 95)
-            {
-                Player.Heal(100);
                 Player.Bleeding = false;
                 Player.Broken = false;
             }
