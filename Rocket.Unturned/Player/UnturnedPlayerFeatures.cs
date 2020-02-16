@@ -14,15 +14,15 @@ namespace Rocket.Unturned.Player
         internal Color? color = null;
         internal Color? Color
         {
-            get { return color; }
-            set { color = value; }
+            get => color;
+            set => color = value;
         }
 
 
         private bool vanishMode = false;
         public bool VanishMode
         {
-            get { return vanishMode; }
+            get => vanishMode;
             set
             {
                 Player.GetComponent<UnturnedPlayerMovement>().VanishMode = value;
@@ -31,10 +31,10 @@ namespace Rocket.Unturned.Player
                 if (vanishMode && !value)
                 {
                     pMovement.updates.Add(new PlayerStateUpdate(pMovement.real, Player.Player.look.angle, Player.Player.look.rot));
-                    #pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0612 // Type or member is obsolete
                     pMovement.isUpdated = true;
                     PlayerManager.updates++;
-                    #pragma warning restore CS0612 // Type or member is obsolete
+#pragma warning restore CS0612 // Type or member is obsolete
                 }
                 vanishMode = value;
             }
@@ -43,6 +43,7 @@ namespace Rocket.Unturned.Player
         private bool godMode = false;
         public bool GodMode
         {
+            get => godMode;
             set
             {
                 if (value)
@@ -63,14 +64,12 @@ namespace Rocket.Unturned.Player
                 }
                 godMode = value;
             }
-            get
-            {
-                return godMode;
-            }
         }
 
         private void e_OnPlayerUpdateVirus(UnturnedPlayer player, byte virus)
         {
+            if (virus < 95)
+                Player.Infection = 0;
             TaskDispatcher.QueueOnMainThread(() =>
             {
                 if (virus < 95) 
@@ -80,6 +79,8 @@ namespace Rocket.Unturned.Player
 
         private void e_OnPlayerUpdateFood(UnturnedPlayer player, byte food)
         {
+            if (food < 95)
+                Player.Hunger = 0;
             TaskDispatcher.QueueOnMainThread(() =>
             {
                 if (food < 95) 
@@ -89,6 +90,8 @@ namespace Rocket.Unturned.Player
 
         private void e_OnPlayerUpdateWater(UnturnedPlayer player, byte water)
         {
+            if (water < 95)
+                Player.Thirst = 0;
             TaskDispatcher.QueueOnMainThread(() =>
             {
                 if (water < 95) 
@@ -100,13 +103,19 @@ namespace Rocket.Unturned.Player
         {
             if (health < 95)
             {
-                TaskDispatcher.QueueOnMainThread(() =>
+                Player.Heal(100);
+                Player.Bleeding = false;
+                Player.Broken = false;
+            }
+            TaskDispatcher.QueueOnMainThread(() =>
+            {
+                if (health < 95)
                 {
                     Player.Heal(100);
                     Player.Bleeding = false;
                     Player.Broken = false;
-                }, 0.5f);
-            }
+                }
+            }, 0.5f);
         }
 
         private void DamageTool_damagePlayerRequested(ref DamagePlayerParameters parameters, ref bool shouldAllow)
