@@ -14,7 +14,7 @@ namespace Rocket.Unturned
             Directory.SetCurrentDirectory(RocketDirectory);
         }
 
-        public static readonly string SettingsFile = "Rocket.Unturned.config.xml";
+        public static readonly string SettingsFile = "Rocket.Unturned.config.json";
         public static readonly string TranslationFile = "Rocket.Unturned.{0}.translation.xml";
         public static readonly string ConsoleFile = "{0}.console";
     }
