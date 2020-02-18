@@ -170,7 +170,7 @@ namespace Rocket.Unturned
         {
             try
             {
-                Settings = new JSONFileAsset<UnturnedSettings>(Environment.SettingsFile);
+                Settings = new XMLFileAsset<UnturnedSettings>(Environment.SettingsFile);
                 Translation = new XMLFileAsset<TranslationList>(String.Format(Environment.TranslationFile, Core.R.Settings.Instance.LanguageCode), new Type[] { typeof(TranslationList), typeof(TranslationListEntry) }, defaultTranslations);
                 
                 defaultTranslations.AddUnknownEntries(Translation);
