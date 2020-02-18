@@ -33,7 +33,7 @@ namespace Rocket.Unturned.Events
                     OnBeforePlayerConnected.TryInvoke(p);
                 }
             };
-            DamageTool.damagePlayerRequested += (ref DamagePlayerParameters parameters, ref bool shouldAllow) => 
+            DamageTool.damagePlayerRequested += (ref DamagePlayerParameters parameters, ref bool shouldAllow) =>
             {
                 if (OnPlayerDamaged != null)
                 {
@@ -42,13 +42,13 @@ namespace Rocket.Unturned.Events
                         UnturnedPlayer getterDamage = UnturnedPlayer.FromPlayer(parameters.player);
                         UnturnedPlayer senderDamage = UnturnedPlayer.FromCSteamID(parameters.killer);
                         OnPlayerDamaged.TryInvoke(
-                            getterDamage, 
-                            parameters.cause, 
-                            parameters.limb, 
-                            senderDamage, 
-                            parameters.direction, 
-                            parameters.damage, 
-                            parameters.times, 
+                            getterDamage,
+                            parameters.cause,
+                            parameters.limb,
+                            senderDamage,
+                            parameters.direction,
+                            parameters.damage,
+                            parameters.times,
                             shouldAllow);
                     }
                 }

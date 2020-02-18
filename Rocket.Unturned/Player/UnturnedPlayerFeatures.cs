@@ -72,7 +72,7 @@ namespace Rocket.Unturned.Player
                 Player.Infection = 0;
             TaskDispatcher.QueueOnMainThread(() =>
             {
-                if (virus < 95) 
+                if (virus < 95)
                     Player.Infection = 0;
             }, 0.5f);
         }
@@ -83,7 +83,7 @@ namespace Rocket.Unturned.Player
                 Player.Hunger = 0;
             TaskDispatcher.QueueOnMainThread(() =>
             {
-                if (food < 95) 
+                if (food < 95)
                     Player.Hunger = 0;
             }, 0.5f);
         }
@@ -94,7 +94,7 @@ namespace Rocket.Unturned.Player
                 Player.Thirst = 0;
             TaskDispatcher.QueueOnMainThread(() =>
             {
-                if (water < 95) 
+                if (water < 95)
                     Player.Thirst = 0;
             }, 0.5f);
         }
