@@ -205,7 +205,17 @@ namespace Rocket.Unturned.Player
             return null;
         }
 
+        public PlayerClothing Clothing => player.clothing;
+        public PlayerCrafting Crafting => player.crafting;
+        public PlayerEquipment Equipment => player.equipment;
+        public PlayerInput Input => player.input;
+        public PlayerInteract Interact => player.interact;
         public PlayerInventory Inventory => player.inventory;
+        public PlayerLife Life => player.life;
+        public PlayerLook Look => player.look;
+        public PlayerQuests Quests => player.quests;
+        public PlayerSkills Skills => player.skills;
+        public PlayerVoice Voice => player.voice;
 
         public bool GiveItem(ushort itemId, byte amount)
         {
