@@ -6,14 +6,14 @@ namespace Rocket.Unturned
 {
     public class UnturnedConsoleWriter : TextWriter
     {
-        private TextWriter _consoleOutput;
-        private TextWriter _consoleError;
+        private readonly TextWriter _consoleOutput;
+        private readonly TextWriter _consoleError;
 
-        private StreamWriter _streamWriter;
+        private readonly StreamWriter _streamWriter;
 
         public UnturnedConsoleWriter(StreamWriter streamWriter)
         {
-            this._streamWriter = streamWriter;
+            _streamWriter = streamWriter;
             _consoleOutput = Console.Out;
             _consoleError = Console.Error;
 
@@ -21,9 +21,9 @@ namespace Rocket.Unturned
             Console.SetError(this);
         }
 
-        public override Encoding Encoding { get { return _consoleOutput.Encoding; } }
-        public override IFormatProvider FormatProvider { get { return _consoleOutput.FormatProvider; } }
-        public override string NewLine { get { return _consoleOutput.NewLine; } set { _consoleOutput.NewLine = value; } }
+        public override Encoding Encoding => _consoleOutput.Encoding;
+        public override IFormatProvider FormatProvider => _consoleOutput.FormatProvider;
+        public override string NewLine { get => _consoleOutput.NewLine; set => _consoleOutput.NewLine = value; }
 
         public override void Close()
         {

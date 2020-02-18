@@ -53,7 +53,10 @@ namespace Rocket.Unturned.Chat
             }
 
             Color? color = GetColorFromHex(colorName);
-            if (color.HasValue) return color.Value;
+            if (color.HasValue)
+            {
+                return color.Value;
+            }
 
             return fallback;
         }
@@ -67,8 +70,7 @@ namespace Rocket.Unturned.Chat
                 hexString = hexString.Insert(3, System.Convert.ToString(hexString[2])); // #9999f
                 hexString = hexString.Insert(5, System.Convert.ToString(hexString[4])); // #9999ff
             }
-            int argb;
-            if (hexString.Length != 6 || !Int32.TryParse(hexString, System.Globalization.NumberStyles.HexNumber, null, out argb))
+            if (hexString.Length != 6 || !int.TryParse(hexString, System.Globalization.NumberStyles.HexNumber, null, out int argb))
             {
                 return null;
             }
@@ -180,12 +182,16 @@ namespace Rocket.Unturned.Chat
 
         public static List<string> wrapMessage(string text)
         {
-            if (text.Length == 0) return new List<string>();
+            if (text.Length == 0)
+            {
+                return new List<string>();
+            }
+
             string[] words = text.Split(' ');
             List<string> lines = new List<string>();
             string currentLine = "";
             int maxLength = 90;
-            foreach (var currentWord in words)
+            foreach (string currentWord in words)
             {
 
                 if ((currentLine.Length > maxLength) ||
@@ -196,14 +202,20 @@ namespace Rocket.Unturned.Chat
                 }
 
                 if (currentLine.Length > 0)
+                {
                     currentLine += " " + currentWord;
+                }
                 else
+                {
                     currentLine += currentWord;
-
+                }
             }
 
             if (currentLine.Length > 0)
+            {
                 lines.Add(currentLine);
+            }
+
             return lines;
         }
     }

@@ -16,8 +16,7 @@ namespace Rocket.Unturned.Commands
         {
             if (array.Length > index)
             {
-                ulong id = 0;
-                if (ulong.TryParse(array[index], out id) && id > 76561197960265728)
+                if (ulong.TryParse(array[index], out ulong id) && id > 76561197960265728)
                 {
                     return new RocketPlayer(id.ToString());
                 }
@@ -29,8 +28,7 @@ namespace Rocket.Unturned.Commands
         {
             if (array.Length > index)
             {
-                ulong id = 0;
-                if (ulong.TryParse(array[index], out id) && id > 76561197960265728)
+                if (ulong.TryParse(array[index], out ulong id) && id > 76561197960265728)
                 {
                     return id;
                 }
@@ -40,7 +38,11 @@ namespace Rocket.Unturned.Commands
 
         public static Color? GetColorParameter(this string[] array, int index)
         {
-            if (array.Length <= index) return null;
+            if (array.Length <= index)
+            {
+                return null;
+            }
+
             Color output = UnturnedChat.GetColorFromName(array[index], Color.clear);
             return (output == Color.clear) ? null : (Color?)output;
         }

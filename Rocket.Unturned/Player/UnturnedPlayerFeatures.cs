@@ -69,33 +69,48 @@ namespace Rocket.Unturned.Player
         private void e_OnPlayerUpdateVirus(UnturnedPlayer player, byte virus)
         {
             if (virus < 95)
+            {
                 Player.Infection = 0;
+            }
+
             TaskDispatcher.QueueOnMainThread(() =>
             {
                 if (virus < 95)
+                {
                     Player.Infection = 0;
+                }
             }, 0.5f);
         }
 
         private void e_OnPlayerUpdateFood(UnturnedPlayer player, byte food)
         {
             if (food < 95)
+            {
                 Player.Hunger = 0;
+            }
+
             TaskDispatcher.QueueOnMainThread(() =>
             {
                 if (food < 95)
+                {
                     Player.Hunger = 0;
+                }
             }, 0.5f);
         }
 
         private void e_OnPlayerUpdateWater(UnturnedPlayer player, byte water)
         {
             if (water < 95)
+            {
                 Player.Thirst = 0;
+            }
+
             TaskDispatcher.QueueOnMainThread(() =>
             {
                 if (water < 95)
+                {
                     Player.Thirst = 0;
+                }
             }, 0.5f);
         }
 
@@ -127,8 +142,7 @@ namespace Rocket.Unturned.Player
         }
 
         private bool initialCheck;
-
-        Vector3 oldPosition = new Vector3();
+        private Vector3 oldPosition = new Vector3();
 
         private void FixedUpdate()
         {
@@ -162,7 +176,11 @@ namespace Rocket.Unturned.Player
         private static string reverse(string s)
         {
             string r = "";
-            for (int i = s.Length; i > 0; i--) r += s[i - 1];
+            for (int i = s.Length; i > 0; i--)
+            {
+                r += s[i - 1];
+            }
+
             return r;
         }
 

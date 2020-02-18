@@ -24,7 +24,7 @@ namespace Rocket.Unturned.Extensions
             {
                 res.AddRange(ProviderExtension.GetUnturnedPlayers());
             }
-            else if (arg.IsPlayer(out var player))
+            else if (arg.IsPlayer(out UnturnedPlayer player))
             {
                 res.Add(player);
             }
@@ -40,13 +40,15 @@ namespace Rocket.Unturned.Extensions
                 return true;
             }
             else
+            {
                 return false;
+            }
         }
         public static bool IsItem(this CommandArg arg, out ItemAsset value)
         {
             if (arg.IsUInt16(out ushort id))
             {
-                var asset = Assets.find(EAssetType.ITEM, id);
+                Asset asset = Assets.find(EAssetType.ITEM, id);
                 if (asset == null)
                 {
                     value = null;
@@ -71,7 +73,7 @@ namespace Rocket.Unturned.Extensions
         {
             if (arg.IsUInt16(out ushort id))
             {
-                var asset = Assets.find(EAssetType.VEHICLE, id);
+                Asset asset = Assets.find(EAssetType.VEHICLE, id);
                 if (asset == null)
                 {
                     value = null;
@@ -96,7 +98,7 @@ namespace Rocket.Unturned.Extensions
         {
             if (arg.IsUInt16(out ushort id))
             {
-                var asset = Assets.find(EAssetType.ANIMAL, id);
+                Asset asset = Assets.find(EAssetType.ANIMAL, id);
                 if (asset == null)
                 {
                     value = null;
@@ -121,7 +123,7 @@ namespace Rocket.Unturned.Extensions
         {
             if (arg.IsUInt16(out ushort id))
             {
-                var asset = Assets.find(EAssetType.EFFECT, id);
+                Asset asset = Assets.find(EAssetType.EFFECT, id);
                 if (asset == null)
                 {
                     value = null;

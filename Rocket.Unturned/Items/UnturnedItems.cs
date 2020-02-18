@@ -19,14 +19,22 @@ namespace Rocket.Unturned.Items
     {
         public static ItemAsset GetItemAssetByName(string name)
         {
-            if (String.IsNullOrEmpty(name)) return null;
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+
             return SDG.Unturned.Assets.find(EAssetType.ITEM).Cast<ItemAsset>().Where(i => i.itemName != null && i.itemName.ToLower().Contains(name.ToLower())).FirstOrDefault();
         }
 
         public static ItemAsset GetItemAssetById(ushort id)
         {
             Asset asset = SDG.Unturned.Assets.find(EAssetType.ITEM, id);
-            if (asset == null) return null;
+            if (asset == null)
+            {
+                return null;
+            }
+
             return (ItemAsset)asset;
         }
 
@@ -76,7 +84,7 @@ namespace Rocket.Unturned.Items
 
             metadata[10] = clipsize;
             metadata[11] = (byte)firemode;
-            metadata[12] = (byte)1;
+            metadata[12] = 1;
 
             return AssembleItem(itemId, amount, durability, metadata);
         }

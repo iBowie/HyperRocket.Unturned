@@ -26,7 +26,7 @@ namespace Rocket.Unturned.Events
             {
                 if (r != CSteamID.Nil)
                 {
-                    UnturnedPlayer p = (UnturnedPlayer)UnturnedPlayer.FromCSteamID(r);
+                    UnturnedPlayer p = UnturnedPlayer.FromCSteamID(r);
                     p.Player.gameObject.TryAddComponent<UnturnedPlayerFeatures>();
                     p.Player.gameObject.TryAddComponent<UnturnedPlayerMovement>();
                     p.Player.gameObject.TryAddComponent<UnturnedPlayerEvents>();

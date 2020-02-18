@@ -60,7 +60,7 @@ namespace Rocket.Unturned.Permissions
             try
             {
 
-                var playerGroups = R.Permissions.GetGroups(new RocketPlayer(r.m_SteamID.ToString()), true);
+                System.Collections.Generic.List<API.Serialisation.RocketPermissionsGroup> playerGroups = R.Permissions.GetGroups(new RocketPlayer(r.m_SteamID.ToString()), true);
 
                 string prefix = playerGroups.FirstOrDefault(x => !string.IsNullOrEmpty(x.Prefix))?.Prefix ?? "";
                 string suffix = playerGroups.FirstOrDefault(x => !string.IsNullOrEmpty(x.Suffix))?.Suffix ?? "";
@@ -89,7 +89,7 @@ namespace Rocket.Unturned.Permissions
 
             if (OnJoinRequested != null)
             {
-                foreach (var handler in OnJoinRequested.GetInvocationList().Cast<JoinRequested>())
+                foreach (JoinRequested handler in OnJoinRequested.GetInvocationList().Cast<JoinRequested>())
                 {
                     try
                     {

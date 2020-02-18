@@ -3,7 +3,6 @@ using Rocket.Core;
 using Rocket.Core.Plugins;
 using Rocket.Unturned.Chat;
 using SDG.Unturned;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -32,15 +31,23 @@ namespace Rocket.Unturned.Commands
                 switch (command[0].ToLower())
                 {
                     case "plugins":
-                        if (caller != null && !caller.HasPermission("rocket.plugins")) return;
+                        if (caller != null && !caller.HasPermission("rocket.plugins"))
+                        {
+                            return;
+                        }
+
                         List<IRocketPlugin> plugins = R.Plugins.GetPlugins();
-                        UnturnedChat.Say(caller, U.Translate("command_rocket_plugins_loaded", String.Join(", ", plugins.Where(p => p.State == PluginState.Loaded).Select(p => p.GetType().Assembly.GetName().Name).ToArray())));
-                        UnturnedChat.Say(caller, U.Translate("command_rocket_plugins_unloaded", String.Join(", ", plugins.Where(p => p.State == PluginState.Unloaded).Select(p => p.GetType().Assembly.GetName().Name).ToArray())));
-                        UnturnedChat.Say(caller, U.Translate("command_rocket_plugins_failure", String.Join(", ", plugins.Where(p => p.State == PluginState.Failure).Select(p => p.GetType().Assembly.GetName().Name).ToArray())));
-                        UnturnedChat.Say(caller, U.Translate("command_rocket_plugins_cancelled", String.Join(", ", plugins.Where(p => p.State == PluginState.Cancelled).Select(p => p.GetType().Assembly.GetName().Name).ToArray())));
+                        UnturnedChat.Say(caller, U.Translate("command_rocket_plugins_loaded", string.Join(", ", plugins.Where(p => p.State == PluginState.Loaded).Select(p => p.GetType().Assembly.GetName().Name).ToArray())));
+                        UnturnedChat.Say(caller, U.Translate("command_rocket_plugins_unloaded", string.Join(", ", plugins.Where(p => p.State == PluginState.Unloaded).Select(p => p.GetType().Assembly.GetName().Name).ToArray())));
+                        UnturnedChat.Say(caller, U.Translate("command_rocket_plugins_failure", string.Join(", ", plugins.Where(p => p.State == PluginState.Failure).Select(p => p.GetType().Assembly.GetName().Name).ToArray())));
+                        UnturnedChat.Say(caller, U.Translate("command_rocket_plugins_cancelled", string.Join(", ", plugins.Where(p => p.State == PluginState.Cancelled).Select(p => p.GetType().Assembly.GetName().Name).ToArray())));
                         break;
                     case "reload":
-                        if (caller != null && !caller.HasPermission("rocket.reload")) return;
+                        if (caller != null && !caller.HasPermission("rocket.reload"))
+                        {
+                            return;
+                        }
+
                         UnturnedChat.Say(caller, U.Translate("command_rocket_reload"));
                         R.Reload();
                         break;
@@ -55,7 +62,11 @@ namespace Rocket.Unturned.Commands
                     switch (command[0].ToLower())
                     {
                         case "reload":
-                            if (caller != null && !caller.HasPermission("rocket.reloadplugin")) return;
+                            if (caller != null && !caller.HasPermission("rocket.reloadplugin"))
+                            {
+                                return;
+                            }
+
                             if (p.State == PluginState.Loaded)
                             {
                                 UnturnedChat.Say(caller, U.Translate("command_rocket_reload_plugin", p.GetType().Assembly.GetName().Name));
@@ -67,7 +78,11 @@ namespace Rocket.Unturned.Commands
                             }
                             break;
                         case "unload":
-                            if (caller != null && !caller.HasPermission("rocket.unloadplugin")) return;
+                            if (caller != null && !caller.HasPermission("rocket.unloadplugin"))
+                            {
+                                return;
+                            }
+
                             if (p.State == PluginState.Loaded)
                             {
                                 UnturnedChat.Say(caller, U.Translate("command_rocket_unload_plugin", p.GetType().Assembly.GetName().Name));
@@ -79,7 +94,11 @@ namespace Rocket.Unturned.Commands
                             }
                             break;
                         case "load":
-                            if (caller != null && !caller.HasPermission("rocket.loadplugin")) return;
+                            if (caller != null && !caller.HasPermission("rocket.loadplugin"))
+                            {
+                                return;
+                            }
+
                             if (p.State != PluginState.Loaded)
                             {
                                 UnturnedChat.Say(caller, U.Translate("command_rocket_load_plugin", p.GetType().Assembly.GetName().Name));

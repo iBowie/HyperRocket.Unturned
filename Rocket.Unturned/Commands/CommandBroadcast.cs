@@ -19,7 +19,11 @@ namespace Rocket.Unturned.Commands
             Color? color = command.GetColorParameter(0);
 
             int i = 1;
-            if (color == null) i = 0;
+            if (color == null)
+            {
+                i = 0;
+            }
+
             string message = command.GetParameterString(i);
 
             if (message == null)

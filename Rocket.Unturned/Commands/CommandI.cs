@@ -31,7 +31,7 @@ namespace Rocket.Unturned.Commands
             byte amount = 1;
             Asset a;
 
-            if (args[0].IsItem(out var itemAsset))
+            if (args[0].IsItem(out ItemAsset itemAsset))
             {
                 a = itemAsset;
                 id = itemAsset.id;

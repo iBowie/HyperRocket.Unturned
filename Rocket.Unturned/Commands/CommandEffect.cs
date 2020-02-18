@@ -17,7 +17,7 @@ namespace Rocket.Unturned.Commands
         public override void Execute(IRocketPlayer caller, CommandArgs args)
         {
             UnturnedPlayer player = (UnturnedPlayer)caller;
-            if (args.Count == 1 && args[0].IsEffect(out var effectAsset))
+            if (args.Count == 1 && args[0].IsEffect(out SDG.Unturned.EffectAsset effectAsset))
             {
                 player.TriggerEffect(effectAsset.id);
             }

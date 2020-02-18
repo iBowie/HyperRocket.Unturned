@@ -13,7 +13,7 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<AnimalAsset> GetAnimalAssets()
         {
-            foreach (var asset in Assets.find(EAssetType.ANIMAL).OrderBy(d => d.id))
+            foreach (Asset asset in Assets.find(EAssetType.ANIMAL).OrderBy(d => d.id))
             {
                 yield return (AnimalAsset)asset;
             }
@@ -23,9 +23,9 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<SearchEntry> SearchAnimalAssets(string search)
         {
-            foreach (var animal in GetAnimalAssets())
+            foreach (AnimalAsset animal in GetAnimalAssets())
             {
-                var entry = new SearchEntry(animal, getPriority(animal, search));
+                SearchEntry entry = new SearchEntry(animal, getPriority(animal, search));
 
                 yield return entry;
             }
@@ -35,7 +35,7 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<AnimalAsset> GetAnimalAssets(string search)
         {
-            foreach (var entry in SearchAnimalAssets(search))
+            foreach (SearchEntry entry in SearchAnimalAssets(search))
             {
                 yield return (AnimalAsset)entry.Asset;
             }
@@ -45,9 +45,12 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static AnimalAsset GetAnimalAsset(string search)
         {
-            var entry = SearchAnimalAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
+            SearchEntry entry = SearchAnimalAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
             if (entry == null || entry.Priority <= 0)
+            {
                 return null;
+            }
+
             return (AnimalAsset)entry.Asset;
         }
         #endregion
@@ -57,7 +60,7 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<ItemAsset> GetItemAssets()
         {
-            foreach (var asset in Assets.find(EAssetType.ITEM).OrderBy(d => d.id))
+            foreach (Asset asset in Assets.find(EAssetType.ITEM).OrderBy(d => d.id))
             {
                 yield return (ItemAsset)asset;
             }
@@ -67,9 +70,9 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<SearchEntry> SearchItemAssets(string search)
         {
-            foreach (var item in GetItemAssets())
+            foreach (ItemAsset item in GetItemAssets())
             {
-                var entry = new SearchEntry(item, getPriority(item, search));
+                SearchEntry entry = new SearchEntry(item, getPriority(item, search));
 
                 yield return entry;
             }
@@ -79,7 +82,7 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<ItemAsset> GetItemAssets(string search)
         {
-            foreach (var entry in SearchItemAssets(search))
+            foreach (SearchEntry entry in SearchItemAssets(search))
             {
                 yield return (ItemAsset)entry.Asset;
             }
@@ -89,9 +92,12 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static ItemAsset GetItemAsset(string search)
         {
-            var entry = SearchItemAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
+            SearchEntry entry = SearchItemAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
             if (entry == null || entry.Priority <= 0)
+            {
                 return null;
+            }
+
             return (ItemAsset)entry.Asset;
         }
         #endregion
@@ -101,7 +107,7 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<VehicleAsset> GetVehicleAssets()
         {
-            foreach (var asset in Assets.find(EAssetType.VEHICLE).OrderBy(d => d.id))
+            foreach (Asset asset in Assets.find(EAssetType.VEHICLE).OrderBy(d => d.id))
             {
                 yield return (VehicleAsset)asset;
             }
@@ -111,9 +117,9 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<SearchEntry> SearchVehicleAssets(string search)
         {
-            foreach (var vehicle in GetVehicleAssets())
+            foreach (VehicleAsset vehicle in GetVehicleAssets())
             {
-                var entry = new SearchEntry(vehicle, getPriority(vehicle, search));
+                SearchEntry entry = new SearchEntry(vehicle, getPriority(vehicle, search));
 
                 yield return entry;
             }
@@ -123,7 +129,7 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<VehicleAsset> GetVehicleAssets(string search)
         {
-            foreach (var entry in SearchVehicleAssets(search))
+            foreach (SearchEntry entry in SearchVehicleAssets(search))
             {
                 yield return (VehicleAsset)entry.Asset;
             }
@@ -133,9 +139,12 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static VehicleAsset GetVehicleAsset(string search)
         {
-            var entry = SearchVehicleAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
+            SearchEntry entry = SearchVehicleAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
             if (entry == null || entry.Priority <= 0)
+            {
                 return null;
+            }
+
             return (VehicleAsset)entry.Asset;
         }
         #endregion
@@ -145,7 +154,7 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<EffectAsset> GetEffectAssets()
         {
-            foreach (var asset in Assets.find(EAssetType.EFFECT).OrderBy(d => d.id))
+            foreach (Asset asset in Assets.find(EAssetType.EFFECT).OrderBy(d => d.id))
             {
                 yield return (EffectAsset)asset;
             }
@@ -155,9 +164,9 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<SearchEntry> SearchEffectAssets(string search)
         {
-            foreach (var effect in GetEffectAssets())
+            foreach (EffectAsset effect in GetEffectAssets())
             {
-                var entry = new SearchEntry(effect, getPriority(effect, search));
+                SearchEntry entry = new SearchEntry(effect, getPriority(effect, search));
 
                 yield return entry;
             }
@@ -167,7 +176,7 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static IEnumerable<EffectAsset> GetEffectAssets(string search)
         {
-            foreach (var entry in SearchEffectAssets(search))
+            foreach (SearchEntry entry in SearchEffectAssets(search))
             {
                 yield return (EffectAsset)entry.Asset;
             }
@@ -177,9 +186,12 @@ namespace Rocket.Unturned.Utils
         /// </summary>
         public static EffectAsset GetEffectAsset(string search)
         {
-            var entry = SearchEffectAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
+            SearchEntry entry = SearchEffectAssets(search).OrderByDescending(d => d.Priority).FirstOrDefault();
             if (entry == null || entry.Priority <= 0)
+            {
                 return null;
+            }
+
             return (EffectAsset)entry.Asset;
         }
         #endregion
@@ -195,10 +207,12 @@ namespace Rocket.Unturned.Utils
             public int Priority { get; set; }
         }
 
-        static int getPriority(Asset asset, string search)
+        private static int getPriority(Asset asset, string search)
         {
             if (asset == null)
+            {
                 return -1;
+            }
 
             if (U.Settings.Instance.EnableFuzzyComparisonForNames)
             {
@@ -228,16 +242,20 @@ namespace Rocket.Unturned.Utils
                 int p = 0;
 
                 if (name.ToLower().Contains(search.ToLower()))
+                {
                     p++;
+                }
 
                 if (asset.name.ToLower().Contains(search.ToLower()))
+                {
                     p++;
+                }
 
                 return p;
             }
         }
 
-        static int myFuzzyComparison(Asset asset, string search)
+        private static int myFuzzyComparison(Asset asset, string search)
         {
             int p = 0;
 
@@ -258,63 +276,96 @@ namespace Rocket.Unturned.Utils
                     break;
             }
             if (name == search) // exact match
+            {
                 p++;
+            }
+
             if (name.ToLower() == search.ToLower()) // ignore case match
+            {
                 p++;
+            }
+
             if (name.Contains(search)) // contains
+            {
                 p++;
+            }
+
             if (name.ToLower().Contains(search.ToLower())) // contains ignore case
+            {
                 p++;
+            }
 
-            var wordsSearch = search.Split(' ').Where(d => d.Length > 0).ToArray();
-            var wordsAsset = name.Split(' ').Where(d => d.Length > 0).ToArray();
-            var words = asset.name.Split('_').Where(d => d.Length > 0).ToArray();
+            string[] wordsSearch = search.Split(' ').Where(d => d.Length > 0).ToArray();
+            string[] wordsAsset = name.Split(' ').Where(d => d.Length > 0).ToArray();
+            string[] words = asset.name.Split('_').Where(d => d.Length > 0).ToArray();
 
-            foreach (var sWord in wordsSearch)
+            foreach (string sWord in wordsSearch)
             {
                 if (name.Contains(sWord)) // asset has word in it
+                {
                     p++;
+                }
 
                 if (name.ToLower().Contains(sWord.ToLower()))
+                {
                     p++;
+                }
 
-                var sNoSpecial = Regex.Replace(sWord, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
+                string sNoSpecial = Regex.Replace(sWord, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
 
-                foreach (var aWord in wordsAsset.Concat(words))
+                foreach (string aWord in wordsAsset.Concat(words))
                 {
                     if (aWord == sWord) // exact match
+                    {
                         p++;
+                    }
 
                     if (aWord.ToLower() == sWord.ToLower()) // ignore case
+                    {
                         p++;
+                    }
 
-                    var aNoSpecial = Regex.Replace(aWord, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
+                    string aNoSpecial = Regex.Replace(aWord, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
 
                     if (aNoSpecial == sWord) // exact no symbols match
+                    {
                         p++;
+                    }
 
                     if (aNoSpecial == sNoSpecial) // exact no symbols
+                    {
                         p++;
+                    }
 
                     if (aNoSpecial.ToLower() == sWord.ToLower()) // ignore case no symbols
+                    {
                         p++;
+                    }
 
-                    var apostropheCount = aWord.Count(c => c == '\'');
+                    int apostropheCount = aWord.Count(c => c == '\'');
                     if (apostropheCount > 0 && apostropheCount % 2 != 0)
                     {
                         string noApostrophe = aWord.Substring(0, aWord.LastIndexOf('\''));
 
                         if (noApostrophe == sWord) // exact
+                        {
                             p++;
+                        }
 
                         if (noApostrophe.ToLower() == sWord.ToLower()) // ignore case
+                        {
                             p++;
+                        }
 
                         if (name.Contains(noApostrophe))
+                        {
                             p++;
+                        }
 
                         if (name.ToLower().Contains(noApostrophe))
+                        {
                             p++;
+                        }
                     }
                 }
             }

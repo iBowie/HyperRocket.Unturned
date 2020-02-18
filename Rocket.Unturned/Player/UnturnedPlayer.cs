@@ -18,45 +18,18 @@ namespace Rocket.Unturned.Player
     public sealed class UnturnedPlayer : IRocketPlayer
     {
 
-        public string Id
-        {
-            get
-            {
-                return CSteamID.ToString();
-            }
-        }
+        public string Id => CSteamID.ToString();
 
-        public string DisplayName
-        {
-            get
-            {
-                return CharacterName;
-            }
-        }
+        public string DisplayName => CharacterName;
 
-        public bool IsAdmin
-        {
-            get
-            {
-                return player.channel.owner.isAdmin;
-            }
-        }
+        public bool IsAdmin => player.channel.owner.isAdmin;
 
-        public Profile SteamProfile
-        {
-            get { return new Profile(ulong.Parse(CSteamID.ToString())); }
-        }
+        public Profile SteamProfile => new Profile(ulong.Parse(CSteamID.ToString()));
 
-        private SDG.Unturned.Player player;
-        public SDG.Unturned.Player Player
-        {
-            get { return player; }
-        }
+        private readonly SDG.Unturned.Player player;
+        public SDG.Unturned.Player Player => player;
 
-        public CSteamID CSteamID
-        {
-            get { return player.channel.owner.playerID.steamID; }
-        }
+        public CSteamID CSteamID => player.channel.owner.playerID.steamID;
 
         public Exception PlayerIsConsoleException;
 
@@ -80,13 +53,14 @@ namespace Rocket.Unturned.Player
 
                 RocketPermissionsGroup group = R.Permissions.GetGroups(this, false).Where(g => g.Color != null && g.Color != "white").FirstOrDefault();
                 string color = "";
-                if (group != null) color = group.Color;
+                if (group != null)
+                {
+                    color = group.Color;
+                }
+
                 return UnturnedChat.GetColorFromName(color, Palette.COLOR_W);
             }
-            set
-            {
-                Features.Color = value;
-            }
+            set => Features.Color = value;
         }
 
 
@@ -102,22 +76,16 @@ namespace Rocket.Unturned.Player
             }
         }
 
-        public float Ping
-        {
-            get
-            {
-                return player.channel.owner.ping;
-            }
-        }
+        public float Ping => player.channel.owner.ping;
 
         public bool Equals(UnturnedPlayer p)
         {
-            if ((object)p == null)
+            if (p == null)
             {
                 return false;
             }
 
-            return (this.CSteamID.ToString() == p.CSteamID.ToString());
+            return (CSteamID.ToString() == p.CSteamID.ToString());
         }
 
         public T GetComponent<T>()
@@ -132,10 +100,13 @@ namespace Rocket.Unturned.Player
 
         public static UnturnedPlayer FromName(string name)
         {
-            if (String.IsNullOrEmpty(name)) return null;
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+
             SDG.Unturned.Player p = null;
-            ulong id = 0;
-            if (ulong.TryParse(name, out id) && id > 76561197960265728)
+            if (ulong.TryParse(name, out ulong id) && id > 76561197960265728)
             {
                 p = PlayerTool.getPlayer(new CSteamID(id));
             }
@@ -143,7 +114,11 @@ namespace Rocket.Unturned.Player
             {
                 p = PlayerTool.getPlayer(name);
             }
-            if (p == null) return null;
+            if (p == null)
+            {
+                return null;
+            }
+
             return new UnturnedPlayer(p);
         }
 
@@ -169,15 +144,9 @@ namespace Rocket.Unturned.Player
             return new UnturnedPlayer(player);
         }
 
-        public UnturnedPlayerFeatures Features
-        {
-            get { return player.gameObject.transform.GetComponent<UnturnedPlayerFeatures>(); }
-        }
+        public UnturnedPlayerFeatures Features => player.gameObject.transform.GetComponent<UnturnedPlayerFeatures>();
 
-        public UnturnedPlayerEvents Events
-        {
-            get { return player.gameObject.transform.GetComponent<UnturnedPlayerEvents>(); }
-        }
+        public UnturnedPlayerEvents Events => player.gameObject.transform.GetComponent<UnturnedPlayerEvents>();
 
         public override string ToString()
         {
@@ -193,8 +162,7 @@ namespace Rocket.Unturned.Player
         {
             get
             {
-                P2PSessionState_t State;
-                SteamGameServerNetworking.GetP2PSessionState(CSteamID, out State);
+                SteamGameServerNetworking.GetP2PSessionState(CSteamID, out P2PSessionState_t State);
                 return Parser.getIPFromUInt32(State.m_nRemoteIP);
             }
         }
@@ -203,7 +171,7 @@ namespace Rocket.Unturned.Player
         {
             PlayerSkills skills = player.skills;
 
-            foreach (var skill in skills.skills.SelectMany(s => s))
+            foreach (Skill skill in skills.skills.SelectMany(s => s))
             {
                 skill.level = skill.max;
             }
@@ -227,7 +195,7 @@ namespace Rocket.Unturned.Player
 
         public SteamPlayer SteamPlayer()
         {
-            foreach (var SteamPlayer in Provider.clients)
+            foreach (SteamPlayer SteamPlayer in Provider.clients)
             {
                 if (CSteamID == SteamPlayer.playerID.steamID)
                 {
@@ -237,10 +205,7 @@ namespace Rocket.Unturned.Player
             return null;
         }
 
-        public PlayerInventory Inventory
-        {
-            get { return player.inventory; }
-        }
+        public PlayerInventory Inventory => player.inventory;
 
         public bool GiveItem(ushort itemId, byte amount)
         {
@@ -257,22 +222,16 @@ namespace Rocket.Unturned.Player
             return VehicleTool.giveVehicle(player, vehicleId);
         }
 
-        public CSteamID SteamGroupID
-        {
-            get
-            {
-                return player.channel.owner.playerID.group;
-            }
-        }
+        public CSteamID SteamGroupID => player.channel.owner.playerID.group;
 
         public void Kick(string reason)
         {
-            Provider.kick(this.CSteamID, reason);
+            Provider.kick(CSteamID, reason);
         }
 
         public void Ban(string reason, uint duration)
         {
-            Provider.ban(this.CSteamID, reason, duration);
+            Provider.ban(CSteamID, reason, duration);
         }
 
         public void Admin(bool admin)
@@ -286,11 +245,11 @@ namespace Rocket.Unturned.Player
             {
                 if (issuer == null)
                 {
-                    SteamAdminlist.admin(this.CSteamID, new CSteamID(0));
+                    SteamAdminlist.admin(CSteamID, new CSteamID(0));
                 }
                 else
                 {
-                    SteamAdminlist.admin(this.CSteamID, issuer.CSteamID);
+                    SteamAdminlist.admin(CSteamID, issuer.CSteamID);
                 }
             }
             else
@@ -348,29 +307,11 @@ namespace Rocket.Unturned.Player
             }
         }
 
-        public Vector3 Position
-        {
-            get
-            {
-                return player.transform.position;
-            }
-        }
+        public Vector3 Position => player.transform.position;
 
-        public EPlayerStance Stance
-        {
-            get
-            {
-                return player.stance.stance;
-            }
-        }
+        public EPlayerStance Stance => player.stance.stance;
 
-        public float Rotation
-        {
-            get
-            {
-                return player.transform.rotation.eulerAngles.y;
-            }
-        }
+        public float Rotation => player.transform.rotation.eulerAngles.y;
 
         public bool Teleport(string nodeName)
         {
@@ -384,36 +325,15 @@ namespace Rocket.Unturned.Player
             return false;
         }
 
-        public byte Stamina
-        {
-            get
-            {
-                return player.life.stamina;
-            }
-        }
+        public byte Stamina => player.life.stamina;
 
-        public string CharacterName
-        {
-            get
-            {
-                return player.channel.owner.playerID.characterName;
-            }
-        }
+        public string CharacterName => player.channel.owner.playerID.characterName;
 
-        public string SteamName
-        {
-            get
-            {
-                return player.channel.owner.playerID.playerName;
-            }
-        }
+        public string SteamName => player.channel.owner.playerID.playerName;
 
         public byte Infection
         {
-            get
-            {
-                return player.life.virus;
-            }
+            get => player.life.virus;
             set
             {
                 player.life.askDisinfect(100);
@@ -423,10 +343,7 @@ namespace Rocket.Unturned.Player
 
         public uint Experience
         {
-            get
-            {
-                return player.skills.experience;
-            }
+            get => player.skills.experience;
             set
             {
                 player.skills.channel.send("tellExperience", ESteamCall.SERVER, ESteamPacket.UPDATE_RELIABLE_BUFFER, value);
@@ -436,30 +353,15 @@ namespace Rocket.Unturned.Player
 
         public int Reputation
         {
-            get
-            {
-                return player.skills.reputation;
-            }
-            set
-            {
-                player.skills.askRep(value);
-            }
+            get => player.skills.reputation;
+            set => player.skills.askRep(value);
         }
 
-        public byte Health
-        {
-            get
-            {
-                return player.life.health;
-            }
-        }
+        public byte Health => player.life.health;
 
         public byte Hunger
         {
-            get
-            {
-                return player.life.food;
-            }
+            get => player.life.food;
             set
             {
                 player.life.askEat(100);
@@ -469,10 +371,7 @@ namespace Rocket.Unturned.Player
 
         public byte Thirst
         {
-            get
-            {
-                return player.life.water;
-            }
+            get => player.life.water;
             set
             {
                 player.life.askDrink(100);
@@ -482,10 +381,7 @@ namespace Rocket.Unturned.Player
 
         public bool Broken
         {
-            get
-            {
-                return player.life.isBroken;
-            }
+            get => player.life.isBroken;
             set
             {
                 player.life.tellBroken(Provider.server, value);
@@ -494,10 +390,7 @@ namespace Rocket.Unturned.Player
         }
         public bool Bleeding
         {
-            get
-            {
-                return player.life.isBleeding;
-            }
+            get => player.life.isBleeding;
             set
             {
                 player.life.tellBleeding(Provider.server, value);
@@ -505,13 +398,7 @@ namespace Rocket.Unturned.Player
             }
         }
 
-        public bool Dead
-        {
-            get
-            {
-                return player.life.isDead;
-            }
-        }
+        public bool Dead => player.life.isDead;
 
         public void Heal(byte amount)
         {
@@ -530,34 +417,15 @@ namespace Rocket.Unturned.Player
 
         public EPlayerKill Damage(byte amount, Vector3 direction, EDeathCause cause, ELimb limb, CSteamID damageDealer)
         {
-            EPlayerKill playerKill;
-            player.life.askDamage(amount, direction, cause, limb, damageDealer, out playerKill);
+            player.life.askDamage(amount, direction, cause, limb, damageDealer, out EPlayerKill playerKill);
             return playerKill;
         }
 
-        public bool IsPro
-        {
-            get
-            {
-                return player.channel.owner.isPro;
-            }
-        }
+        public bool IsPro => player.channel.owner.isPro;
 
-        public InteractableVehicle CurrentVehicle
-        {
-            get
-            {
-                return player.movement.getVehicle();
-            }
-        }
+        public InteractableVehicle CurrentVehicle => player.movement.getVehicle();
 
-        public bool IsInVehicle
-        {
-            get
-            {
-                return CurrentVehicle != null;
-            }
-        }
+        public bool IsInVehicle => CurrentVehicle != null;
 
         public void SetSkillLevel(UnturnedSkill skill, byte level)
         {
@@ -572,7 +440,7 @@ namespace Rocket.Unturned.Player
 
         public Skill GetSkill(UnturnedSkill skill)
         {
-            var skills = player.skills;
+            PlayerSkills skills = player.skills;
             return skills.skills[skill.Speciality][skill.Skill];
         }
 

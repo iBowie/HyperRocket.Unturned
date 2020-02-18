@@ -45,7 +45,7 @@ namespace Rocket.Unturned.Commands
             }
             else
             {
-                IRocketCommand cmd = R.Commands.Commands.Where(c => (String.Compare(c.Name, command[0], true) == 0)).FirstOrDefault();
+                IRocketCommand cmd = R.Commands.Commands.Where(c => (string.Compare(c.Name, command[0], true) == 0)).FirstOrDefault();
                 if (cmd != null)
                 {
                     string commandName = cmd.GetType().Assembly.GetName().Name + " / " + cmd.Name;

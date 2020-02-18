@@ -50,7 +50,11 @@ namespace Rocket.Unturned.Events
         {
             try
             {
-                if (s == null || s.player == null || s.playerID.steamID == CSteamID.Nil || s.player.transform == null || R == null) return;
+                if (s == null || s.player == null || s.playerID.steamID == CSteamID.Nil || s.player.transform == null || R == null)
+                {
+                    return;
+                }
+
                 UnturnedPlayerEvents instance = s.player.transform.GetComponent<UnturnedPlayerEvents>();
                 UnturnedPlayer rp = UnturnedPlayer.FromSteamPlayer(s);
 #if DEBUG
@@ -259,7 +263,7 @@ namespace Rocket.Unturned.Events
         {
             if (OnPlayerChatted != null)
             {
-                foreach (var handler in OnPlayerChatted.GetInvocationList().Cast<PlayerChatted>())
+                foreach (PlayerChatted handler in OnPlayerChatted.GetInvocationList().Cast<PlayerChatted>())
                 {
                     try
                     {

@@ -9,10 +9,13 @@ namespace Rocket.Unturned.Extensions
     {
         public static IEnumerable<UnturnedPlayer> GetUnturnedPlayers()
         {
-            foreach (var sp in Provider.clients)
+            foreach (SteamPlayer sp in Provider.clients)
             {
                 if (sp == null || sp.player == null)
+                {
                     continue;
+                }
+
                 UnturnedPlayer up = UnturnedPlayer.FromSteamPlayer(sp);
                 yield return up;
             }
@@ -20,14 +23,22 @@ namespace Rocket.Unturned.Extensions
         public static IEnumerable<UnturnedPlayer> GetUnturnedPlayers(Func<UnturnedPlayer, bool> filter)
         {
             if (filter == null)
+            {
                 throw new ArgumentNullException("filter");
-            foreach (var sp in Provider.clients)
+            }
+
+            foreach (SteamPlayer sp in Provider.clients)
             {
                 if (sp == null || sp.player == null)
+                {
                     continue;
+                }
+
                 UnturnedPlayer up = UnturnedPlayer.FromSteamPlayer(sp);
                 if (filter.Invoke(up))
+                {
                     yield return up;
+                }
             }
         }
     }

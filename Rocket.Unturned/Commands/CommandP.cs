@@ -36,7 +36,11 @@ namespace Rocket.Unturned.Commands
             {
 
                 IRocketPlayer player = command.GetUnturnedPlayerParameter(0);
-                if (player == null) player = command.GetRocketPlayerParameter(0);
+                if (player == null)
+                {
+                    player = command.GetRocketPlayerParameter(0);
+                }
+
                 if (player != null)
                 {
                     UnturnedChat.Say(caller, U.Translate("command_p_groups_private", player.DisplayName + "s", string.Join(", ", R.Permissions.GetGroups(player, true).Select(g => g.DisplayName).ToArray())));
@@ -53,7 +57,10 @@ namespace Rocket.Unturned.Commands
                 string c = command.GetStringParameter(0).ToLower();
 
                 IRocketPlayer player = command.GetUnturnedPlayerParameter(1);
-                if (player == null) player = command.GetRocketPlayerParameter(1);
+                if (player == null)
+                {
+                    player = command.GetRocketPlayerParameter(1);
+                }
 
                 string groupName = command.GetStringParameter(2);
 

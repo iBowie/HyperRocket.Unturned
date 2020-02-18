@@ -117,7 +117,7 @@ namespace Rocket.Unturned
         public static Asset<UnturnedSettings> Settings;
         public static Asset<TranslationList> Translation;
 
-        public IRocketImplementationEvents ImplementationEvents { get { return Events; } }
+        public IRocketImplementationEvents ImplementationEvents => Events;
         public static UnturnedEvents Events;
 
         public event RocketImplementationInitialized OnRocketImplementationInitialized;
@@ -140,7 +140,9 @@ namespace Rocket.Unturned
 
 
                 if (System.Environment.OSVersion.Platform == PlatformID.Unix || System.Environment.OSVersion.Platform == PlatformID.MacOSX)
+                {
                     Console = rocketGameObject.AddComponent<UnturnedConsole>();
+                }
 
                 System.Console.Clear();
                 System.Console.ForegroundColor = ConsoleColor.Cyan;
@@ -171,7 +173,7 @@ namespace Rocket.Unturned
             try
             {
                 Settings = new XMLFileAsset<UnturnedSettings>(Environment.SettingsFile);
-                Translation = new XMLFileAsset<TranslationList>(String.Format(Environment.TranslationFile, Core.R.Settings.Instance.LanguageCode), new Type[] { typeof(TranslationList), typeof(TranslationListEntry) }, defaultTranslations);
+                Translation = new XMLFileAsset<TranslationList>(string.Format(Environment.TranslationFile, Core.R.Settings.Instance.LanguageCode), new Type[] { typeof(TranslationList), typeof(TranslationListEntry) }, defaultTranslations);
 
                 defaultTranslations.AddUnknownEntries(Translation);
                 Events = gameObject.TryAddComponent<UnturnedEvents>();
@@ -208,7 +210,7 @@ namespace Rocket.Unturned
                 {
                     R.Plugins.OnPluginsLoaded += () =>
                     {
-                        SteamGameServer.SetKeyValue("rocketplugins", String.Join(",", R.Plugins.GetPlugins().Select(p => p.Name).ToArray()));
+                        SteamGameServer.SetKeyValue("rocketplugins", string.Join(",", R.Plugins.GetPlugins().Select(p => p.Name).ToArray()));
                     };
 
 
@@ -235,8 +237,16 @@ namespace Rocket.Unturned
         {
             CommandWindow.onCommandWindowInputted += (string text, ref bool shouldExecuteCommand) =>
             {
-                if (text.StartsWith("/")) text.Substring(1);
-                if (R.Commands != null) R.Commands.Execute(new ConsolePlayer(), text);
+                if (text.StartsWith("/"))
+                {
+                    text.Substring(1);
+                }
+
+                if (R.Commands != null)
+                {
+                    R.Commands.Execute(new ConsolePlayer(), text);
+                }
+
                 shouldExecuteCommand = false;
             };
 
@@ -274,7 +284,9 @@ namespace Rocket.Unturned
             Provider.onCheckValid += (ValidateAuthTicketResponse_t callback, ref bool isValid) =>
             {
                 if (isValid)
+                {
                     isValid = UnturnedPermissions.CheckValid(callback);
+                }
             };
         }
 
@@ -294,13 +306,7 @@ namespace Rocket.Unturned
 
         }
 
-        public string InstanceId
-        {
-            get
-            {
-                return Dedicator.serverID;
-            }
-        }
+        public string InstanceId => Dedicator.serverID;
     }
 
 }

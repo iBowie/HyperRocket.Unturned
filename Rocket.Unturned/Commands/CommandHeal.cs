@@ -40,7 +40,9 @@ namespace Rocket.Unturned.Commands
                     UnturnedChat.Say(caller, U.Translate("command_heal_success_me", otherPlayer.CharacterName));
 
                     if (caller != null)
+                    {
                         UnturnedChat.Say(otherPlayer, U.Translate("command_heal_success_other", caller.DisplayName));
+                    }
                 }
                 else
                 {

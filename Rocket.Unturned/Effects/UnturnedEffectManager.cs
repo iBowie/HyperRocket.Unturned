@@ -8,9 +8,9 @@ namespace Rocket.Unturned.Effects
     {
         public UnturnedEffect(string type, ushort effectID, bool global)
         {
-            this.Type = type;
-            this.EffectID = effectID;
-            this.Global = global;
+            Type = type;
+            EffectID = effectID;
+            Global = global;
         }
         public string Type;
         public ushort EffectID;

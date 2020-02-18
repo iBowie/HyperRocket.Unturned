@@ -28,7 +28,7 @@ namespace Rocket.Unturned.Utils
                 {
                     interval = U.Settings.Instance.AutomaticSave.Interval;
                 }
-                Core.Logging.Logger.Log(String.Format("This server will automatically save every {0} seconds", interval));
+                Core.Logging.Logger.Log(string.Format("This server will automatically save every {0} seconds", interval));
                 restartTimer();
             }
         }
